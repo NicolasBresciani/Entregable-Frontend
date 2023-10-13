@@ -18,22 +18,27 @@ const App = () => {
   const [sort, setSort] = useState('');
   const [error, setError] = useState(null);
 
+  // Función para manejar cambios en el campo de búsqueda
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
 
+  // Función para manejar cambios en el filtro de lenguaje
   const handleLanguageFilterChange = (e) => {
     setLanguageFilter(e.target.value);
   };
 
+  // Función para manejar cambios en el filtro de orden
   const handleSortChange = (e) => {
     setSort(e.target.value);
   };
 
+  // Función para aplicar los filtros seleccionados
   const handleFilterChange = () => {
     searchGitHubRepo();
   };
 
+  // Función para limpiar los resultados
   const clearResults = () => {
     setResultsRepo([]);
     setResultsUser(null);
@@ -41,6 +46,7 @@ const App = () => {
     setError(null);
   };
 
+  // Función para buscar repositorios en GitHub
   const searchGitHubRepo = async () => {
     clearResults();
     setError(null);
@@ -68,6 +74,7 @@ const App = () => {
     }
   };
 
+  // Función para buscar un usuario en GitHub
   const searchGitUser = async () => {
     clearResults();
     setError(null);
@@ -76,18 +83,21 @@ const App = () => {
       const userRepoResponse = await axios.get(`https://api.github.com/users/${search}/repos`);
       setResultsUser(userResponse.data);
       setResultsUserRepo(userRepoResponse.data);
-      setCurrentPage(1);
+      setCurrentPage(1);  // Esto es para resetear a la primera página después de una nueva búsqueda
     } catch (error) {
       console.error('Error al obtener los datos del usuario o sus repositorios: ', error);
       setError('Error al obtener los datos del usuario o sus repositorios');
     }
   };
-
+  // Esto calcula el índice del último resultado en la página actual
   const indexOfLastResult = currentPage * resultsPerPage;
+  // Esto calcula el índice del primer resultado en la página actual
   const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  // Esto obtiene los resultados actuales en la página para la búsqueda de repositorios
   const currentResultsRepo = resultsRepo.slice(indexOfFirstResult, indexOfLastResult);
+  // Esto obtiene los resultados actuales en la página para la búsqueda de usuarios
   const currentResultsUser = resultsUserRepo ? resultsUserRepo.slice(indexOfFirstResult, indexOfLastResult) : [];
-
+  // Esta es la función para cambiar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -131,7 +141,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-

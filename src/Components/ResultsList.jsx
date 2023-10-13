@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaStar } from "react-icons/fa";
 
-const ResultsList = ({ resultsRepo, currentResultsRepo }) => {
+const ResultsList = ({ currentResultsRepo }) => {
   return (
     <div>
       {currentResultsRepo.length > 0 && (
